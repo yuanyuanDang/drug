@@ -16,7 +16,7 @@
                     {address: '/', icon: 'tab-icon-a', p: '首 页'},
                     {address: '/about', icon: 'tab-icon-b', p: '分 类'},
                     {address: '/shopping', icon: 'tab-icon-c', p: '购物车'},
-                    {address: '/user', icon: 'tab-icon-d', p: '我 的'}
+                    {address: '/login', icon: 'tab-icon-d', p: '我 的'}
                 ]
             }
         }

@@ -87,7 +87,7 @@
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     html {
         font-size: 26.67vw;
         background: #f2f5f4;

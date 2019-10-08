@@ -271,7 +271,7 @@
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   html {
     font-size: 26.67vw;
     background: #f2f5f4;
@@ -484,7 +484,11 @@
       overflow: hidden;
       height: 1.4rem;
       .show {
-        width: 200%;
+        /*width: 200%;*/
+        display: flex;
+        overflow-x: scroll;
+        -webkit-overflow-scrolling:touch;
+
         .show-time {
           float: left;
           width: 0.8rem;
@@ -520,7 +524,7 @@
               color: #666666;
               position: absolute;
               bottom: 0.05rem;
-              right: 0;
+              right: 0.02rem;
             }
           }
         }
@@ -596,11 +600,12 @@
   }
   .recommend {
     margin: 0.1rem 0.16rem;
-    height: 2.46rem;
+    /*height: 2.46rem;*/
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    padding-bottom: 1rem;
     .recommend-item {
       width:1.48rem;
       height:100%;

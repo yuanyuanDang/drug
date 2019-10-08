@@ -8,6 +8,7 @@
         </div>
         <div class="code"></div>
       </div>
+    </header>
       <section>
         <div class="section-left">
           <a v-for="(bar,index ) in nav" :herf="bar.site" :class="{active: curId===index}"  @click="select(index)">{{bar.a}}</a>
@@ -44,7 +45,6 @@
           </div>
         </div>
       </section>
-    </header>
 
     <Footer></Footer>
   </div>
@@ -111,7 +111,7 @@
 
   }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   html {
     font-size: 26.67vw;
     background: #f2f5f4;
@@ -168,6 +168,8 @@
   section {
     display: flex;
     justify-content: space-between;
+    padding-top: 0.5rem;
+
     .section-left {
       width: 1.4rem;
       a {
@@ -185,6 +187,7 @@
         color:rgba(51,51,51,1);
         font-size: 0.17rem;
         position: relative;
+        z-index: -1;
       }
       .active:after {
         content: '';
@@ -200,6 +203,7 @@
     .section-right {
       width: 2.1rem;
       padding: 0.05rem 0.16rem;
+      padding-bottom: 1rem;
       img {
         width: 2.1rem;
         overflow: hidden;

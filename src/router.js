@@ -4,6 +4,8 @@ import Home from './views/Home.vue'
 import About from './views/About'
 import Shopping from './views/Shopping';
 import User from './views/User';
+import Register from './views/Register';
+import Login from './views/Login';
 
 Vue.use(Router)
 
@@ -26,7 +28,7 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: About
     },
     {
       path: '/shopping',
@@ -36,7 +38,19 @@ export default new Router({
     {
       path: '/user',
       name: 'user',
-      component: () => import(/* webpackChunkName: "user" */ './views/User.vue')
-    }
+      component: () => import(/* webpackChunkName: "user" */ './views/User.vue'),
+
+    },
+      {
+          path:'/register',
+          name:'register',
+          component:() => import('./views/Register.vue')
+      },
+      {
+          path:'/login',
+          name:'login',
+          component:() => import('./views/Login.vue')
+      }
+
     ]
 })

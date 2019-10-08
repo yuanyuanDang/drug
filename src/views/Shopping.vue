@@ -96,7 +96,7 @@
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     html {
         font-size: 26.67vw;
         background: #f2f5f4;
@@ -152,12 +152,12 @@
     }
     .desc-item {
         height: 1.1rem;
-        margin: 0 0.1rem;
+        margin: 0 0.1rem 0.1rem;
         position: relative;
         background:rgba(255,255,255,1);
         box-shadow:0 0.03rem 0.03rem 0 rgba(224,222,220,0.4);
         border-radius:10px;
-        margin-bottom: 0.1rem;
+        /*margin-bottom: 0.1rem;*/
         i {
             width: 0.15rem;
             height: 0.15rem;
@@ -300,11 +300,12 @@
         }
     }
     .product {
-        padding: 0 0.16rem;
+        padding: 0 0.16rem 1.5rem;
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
         align-items: center;
+
         .product-item {
             width:48%;
             height:1.7rem;
