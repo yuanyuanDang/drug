@@ -9,6 +9,7 @@
   "dependencies": {
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
+    "vue-resource": "^1.5.1",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
   },
@@ -18,5 +19,20 @@
     "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.6.10"
-  }
+  },
+  "description": "```\r npm install\r ```",
+  "main": "babel.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuanyuanDang/drug.git"
+  },
+  "keywords": [
+    "vue"
+  ],
+  "author": "dangyuanyuan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yuanyuanDang/drug/issues"
+  },
+  "homepage": "https://github.com/yuanyuanDang/drug#readme"
 }

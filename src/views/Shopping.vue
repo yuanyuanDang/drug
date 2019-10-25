@@ -1,5 +1,5 @@
 <template>
-    <div class="shopping">
+    <div class="shopping" id="shopping">
         <header>
             <div class="heads">
                 <div class="empty"></div>
@@ -7,56 +7,45 @@
                 <div class="text-b">管理</div>
             </div>
         </header>
+
         <div class="desc">
             <i></i>
             <p>怡康到家网上药店</p>
         </div>
 
-        <div v-for="desc in description" class="desc-item">
-            <i></i>
-            <img :src="desc.images">
-            <div class="drug-description">
-                <div class="drug-name">{{desc.adverse}}</div>
-                <div class="drug-desc">{{desc.reaction}}<b></b></div>
-                <div class="drug-charge">{{desc.bureau}}</div>
-            </div>
-            <div class="num-choice">
-                <div class="minus">-</div>
-                <div class="number">1</div>
-                <div class="plus">+</div>
-            </div>
-
-        </div>
-
-
-
-<!--        <div class="desc-item">-->
-<!--            <i></i>-->
-<!--            <img src="../assets/images/shopping/shopping_img3@2x.png">-->
-<!--            <div class="drug-description">-->
-<!--                <div class="drug-name">江中 健胃消食片</div>-->
-<!--                <div class="drug-desc">规格：0.25g*50粒<b></b></div>-->
-<!--                <div class="drug-charge">¥9.8</div>-->
-<!--            </div>-->
-<!--            <div class="num-choice">-->
-<!--                <div class="minus">-</div>-->
-<!--                <div class="number">1</div>-->
-<!--                <div class="plus">+</div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-
-
-        <div class="settle">
-            <i></i>
-            <div class="accounts">结算</div>
-            <div class="cost">
-                <div class="cost-up">合计：
-                    <span> ¥59.2</span>
+        <div class="cart" v-for="(desc,index) in description"  :key="index">
+         <div class="desc-item">
+                <i v-bind:class="{'active':desc.checked}" @click="selectedProduct(desc)"></i>
+                <img :src="desc.images"/>
+                <div class="drug-description">
+                    <div class="drug-name">{{desc.adverse}}</div>
+                    <div class="drug-desc">{{desc.reaction}}<b></b></div>
+                    <div class="drug-charge">{{ desc.bureau | formatMoney }}</div>
                 </div>
-                <div class="cost-down">不含运费</div>
+                <div class="num-choice">
+                    <div class="minus">
+                        <a href="javascript:void (0)" @click="changeMoney(desc,-1)">-</a>
+                    </div>
+                    <div class="number">
+                        <input type="text" value="0" disabled v-model="desc.number"/>
+                    </div>
+                    <div class="plus">
+                        <a href="javascript:void (0)" v-on:click="changeMoney(desc,1)">+</a>
+                    </div>
+                </div>
+            </div>
+            <div class="settle">
+                <i v-bind:class="{'active':flag}" @click="checkAll"></i>
+                <div class="accounts">结算</div>
+                <div class="cost">
+                    <div class="cost-up">合计：
+                        <span>{{totalMoney.toFixed(2)}}元</span>
+                    </div>
+                    <div class="cost-down">不含运费</div>
+                </div>
             </div>
         </div>
+
         <div class="cut-help">
             <span></span>
             可能帮到你
@@ -76,22 +65,81 @@
 </template>
 
 <script>
+
     import picture5 from "../assets/images/shopping/shopping_img3@2x.png"
     import picture4 from "../assets/images/shopping/shopping_img2@2x.png"
     import Footer from "../components/Footer";
     export default {
+
         name: "Shopping",
         components: {Footer},
         data(){
             return{
                 description:[
-                    {images:picture4,adverse:'阿莫西林胶囊',reaction:'规格：0.25g*50粒',bureau:'¥19.8'},
-                    {images:picture5,adverse:'江中健胃消食片',reaction:'规格：0.25g*50粒',bureau:'¥9.8'},
-                    {images:picture4,adverse:'阿莫西林胶囊',reaction:'规格：0.25g*50粒',bureau:'¥19.8'},
-                    {images:picture5,adverse:'江中健胃消食片',reaction:'规格：0.25g*50粒',bureau:'¥9.8'}
-                ]
+                    {images:picture4,adverse:'阿莫西林胶囊',reaction:'规格：0.25g*50粒',bureau:19.8,number:'2'},
+                    {images:picture5,adverse:'江中健胃消食片',reaction:'规格：0.25g*50粒',bureau:9.8,number:'2'},
+                    {images:picture4,adverse:'阿莫西林胶囊',reaction:'规格：0.25g*50粒',bureau:19.8,number:'2'},
+                    {images:picture5,adverse:'江中健胃消食片',reaction:'规格：0.25g*50粒',bureau:9.8,number:'2'}
+                ],
+                flag:false,
+                totalMoney:0
             }
-
+        },
+        filters: {
+            formatMoney: function (value) {
+                return '¥' + value.toFixed(2)
+            }
+        },
+        methods:{
+            changeMoney:function (product,way) {
+                if (way>0){
+                    product.number++;
+                }
+                else {
+                    product.number--;
+                    if (product.number<1){
+                        product.number=1
+                    }
+                }
+                this.totalMoneyPrice()
+            },
+            selectedProduct:function (desc) {
+                if (typeof desc.checked==='undefined'){
+                    this.$set(desc,"checked",true)
+                }
+                else {
+                    desc.checked = !desc.checked
+                }
+                this.totalMoneyPrice()
+            },
+            checkAll:function () {
+                this.flag = !this.flag
+                const self = this
+                if (self.flag){
+                    self.description.forEach(function (desc,index) {
+                        if (typeof desc.checked==='undefined'){
+                            self.$set(desc,"checked",self.flag)
+                        } else {
+                            desc.checked = true
+                        }
+                    })
+                }
+                else {
+                    self.description.forEach(function (desc,index) {
+                        desc.checked = !desc.checked
+                    })
+                }
+                this.totalMoneyPrice()
+            },
+            totalMoneyPrice:function () {
+                const self = this
+                self.totalMoney=0
+                self.description.forEach(function (desc,index) {
+                    if (desc.checked){
+                        self.totalMoney += desc.number*desc.bureau
+                    }
+                })
+            }
         }
     }
 </script>
@@ -142,6 +190,9 @@
             left: 0.16rem;
             top: 0.16rem;
         }
+        .active {
+            background: url("../assets/images/others/全选.svg")no-repeat center/cover;
+        }
         p {
             height: 0.44rem;
             font-size: 0.15rem;
@@ -161,12 +212,16 @@
         i {
             width: 0.15rem;
             height: 0.15rem;
-            background: url("../assets/images/others/全选.svg")no-repeat center/cover;
+            background: url("../assets/images/others/圆圈.svg")no-repeat center/cover;
             display: block;
             position: absolute;
             left: 0.16rem;
             top: 0.5rem;
         }
+        .active {
+            background: url("../assets/images/others/全选.svg")no-repeat center/cover;
+        }
+
         img {
             width: 0.7rem;
             margin: 0.35rem 0.45rem;
@@ -225,6 +280,9 @@
                 border-right: 0.005rem solid rgba(153,153,153,1);
                 line-height: 0.15rem;
                 text-align: center;
+                a {
+                    color: #333;
+                }
             }
             .number {
                 width: 0.3rem;
@@ -232,6 +290,12 @@
                 border-right: 0.005rem solid rgba(153,153,153,1);
                 line-height: 0.15rem;
                 text-align: center;
+                input {
+                    border: none;
+                    background: transparent;
+                    width: 100%;
+                    text-align: center;
+                }
             }
             .plus {
                 width: 0.15rem;
@@ -239,6 +303,9 @@
                 /*border: 0.01rem solid rgba(153,153,153,1);*/
                 line-height: 0.15rem;
                 text-align: center;
+                a {
+                    color: #333;
+                }
             }
         }
     }
@@ -254,10 +321,13 @@
         i {
             width: 0.15rem;
             height: 0.15rem;
-            background: url("../assets/images/others/全选.svg")no-repeat center/cover;
+            background: url("../assets/images/others/圆圈.svg")no-repeat center/cover;
             display: block;
             margin: 0.15rem 0;
             float: left;
+        }
+        .active {
+            background: url("../assets/images/others/全选.svg")no-repeat center/cover;
         }
         .accounts {
             float: right;

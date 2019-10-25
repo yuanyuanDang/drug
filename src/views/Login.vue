@@ -2,7 +2,7 @@
   <div class="register">
     <header>
       <div class="head">
-        <a href="/user"></a>
+        <a href="/home"></a>
         <span>登录</span>
         <span></span>
       </div>
@@ -68,7 +68,7 @@
                     this.$router.push('/user')
                 }
                 else{
-                    alert('用户名或密码不正确')
+                    alert('用户名或密码不正确');
                     this.name = '';
                     this.password = '';
                 }
@@ -79,6 +79,7 @@
             },
             cancel(){
                 this.isReg = false
+                this.$router.push('/home')
             },
             register(){
                 if(this.password===this.repeat){
